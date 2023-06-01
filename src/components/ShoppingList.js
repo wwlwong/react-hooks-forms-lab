@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import ItemForm from "./ItemForm";
 import Filter from "./Filter";
 import Item from "./Item";
-import { v4 as uuid } from "uuid";
 
-function ShoppingList({ items, setItems }) {
+
+function ShoppingList({ items, onItemFormSubmit }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [search, setSearch] = useState('');
-  const [itemName, setItemName] = useState('');
-  const [itemCategory, setItemCategory] = useState('Produce');
+  
 
   function handleCategoryChange(event) {
     setSelectedCategory(event.target.value);
@@ -16,24 +15,6 @@ function ShoppingList({ items, setItems }) {
 
   function handleSearchChange(event) {
     setSearch(event.target.value);
-  }
-
-  function handleItemChange(event) {
-    setItemName(event.target.value);
-  }
-  
-  function handleItemCategoryChange(event){
-    setItemCategory(event.target.value);
-  }
-
-  function onItemFormSubmit(event){
-    event.preventDefault();
-    const newItem = {
-      id: uuid(),
-      name: itemName,
-      category: itemCategory,
-    }
-    setItems([...items, newItem]);
   }
 
   const itemsToDisplay = items.filter((item) => {
@@ -48,7 +29,7 @@ function ShoppingList({ items, setItems }) {
   
   return (
     <div className="ShoppingList">
-      <ItemForm onItemFormSubmit={onItemFormSubmit} handleItemChange={handleItemChange} handleItemCategoryChange={handleItemCategoryChange} itemName={itemName} itemCategory={itemCategory} />
+      <ItemForm onItemFormSubmit={onItemFormSubmit} />
       <Filter onCategoryChange={handleCategoryChange} onSearchChange={handleSearchChange} search={search}/>
       <ul className="Items">
         {itemsToDisplay.map((item) => (
